@@ -1,6 +1,7 @@
 package Targil2;
 
-import static java.lang.Long.parseLong;
+import java.util.*;
+import java.util.List;
 
 public class OrderProduct {
     private long orderId;
@@ -9,7 +10,10 @@ public class OrderProduct {
 
     public OrderProduct(String orderInfo)
     {
-        //To Do
+        List<String> OrderProductData = Arrays.asList(orderInfo.split("\\s"));
+        orderId = Long.parseLong(OrderProductData.get(2));
+        productId = Long.parseLong(OrderProductData.get(5));
+        quantity = Integer.parseInt(OrderProductData.get(7));
     }
 
     public OrderProduct(long oId, long pId, int quantity)
