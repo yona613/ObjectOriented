@@ -16,9 +16,9 @@ public class Product
     {
         List<String> productData = Arrays.asList(orderInfo.split("\\s"));
         ProductId = Long.parseLong(productData.get(1));
-        name = productData.get(3);
-        category = ProductCategory.valueOf(productData.get(5));
-        price = Double.parseDouble(productData.get(5));
+        name = productData.get(2);
+        category = ProductCategory.valueOf(productData.get(4));
+        price = Double.parseDouble(productData.get(6));
     }
 
     public Product(long PId, String Pname, ProductCategory Pcategory, double Pprice)

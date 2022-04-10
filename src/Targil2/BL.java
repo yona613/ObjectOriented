@@ -68,7 +68,10 @@ public class BL implements IBL {
                         .filter(p -> p.getProductId() == orderProduct.getProductId())
                         .findAny()
                         .orElse(null)
-                ).collect(Collectors.toList());
+                )
+                .filter(Objects::nonNull)
+                .sorted(Comparator.comparingLong(Product::getProductId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -77,6 +80,8 @@ public class BL implements IBL {
                 .map(op -> DataSource.allOrders.stream().filter(o -> o.getOrderId() == op.getOrderId()).findAny().orElse(null))
                 .filter(Objects::nonNull)
                 .map(o -> DataSource.allCustomers.stream().filter(c -> c.getId() == o.getCustomrId()).findAny().orElse(null))
+                .filter(Objects::nonNull)
+                .sorted(Comparator.comparingLong(Customer::getId))
                 .collect(Collectors.toList());
     }
 
@@ -84,7 +89,7 @@ public class BL implements IBL {
     public Product getMaxOrderedProduct() {
         return DataSource.allProducts.stream().filter(p -> p.getProductId() ==
                 DataSource.allOrderProducts.stream().collect(groupingBy(OrderProduct::getProductId))
-                        .entrySet().stream().collect(toMap(Map.Entry::getKey, e -> e.getValue().stream().map(OrderProduct::getQuantity).reduce(0, Integer::sum))).entrySet().stream().max(Comparator.comparingInt(Map.Entry::getValue)).orElse(new AbstractMap.SimpleImmutableEntry<>(0L, 0)).getKey()
+                        .entrySet().stream().collect(toMap(Map.Entry::getKey, e -> e.getValue().size())).entrySet().stream().max(Comparator.comparingInt(Map.Entry::getValue)).orElse(new AbstractMap.SimpleImmutableEntry<>(0L, 0)).getKey()
                 ).findFirst().orElse(null);
 
     }

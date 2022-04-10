@@ -22,12 +22,13 @@ public class Order {
         orderId = Long.parseLong(orderData.get(1));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            orderDate = sdf.parse(orderData.get(3));
-            deliveryDate = sdf.parse(orderData.get(5));
+            orderDate = sdf.parse(orderData.get(4));
+            deliveryDate = sdf.parse(orderData.get(7));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        status = OrderStatus.valueOf(orderData.get(5));
+        status = OrderStatus.valueOf(orderData.get(9));
+        customrId = Long.parseLong(orderData.get(12));
     }
 
     public Order(long Oid, Date OorderDate, Date OdeliveryDate, OrderStatus Ostatus, long OcustomrId) {
