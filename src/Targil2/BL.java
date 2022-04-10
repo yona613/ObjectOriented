@@ -1,8 +1,10 @@
 package Targil2;
 
+import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.DoubleAccumulator;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.reverseOrder;
@@ -44,8 +46,9 @@ public class BL implements IBL {
 
     @Override
     public List<Order> getCustomerOrders(long customerId) {
-        //To do
-        return null;
+        return DataSource.allOrders.stream().filter(o-> o.getCustomrId() == customerId)
+                .sorted(Comparator.comparingLong(Order::getOrderId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -56,8 +59,10 @@ public class BL implements IBL {
 
     @Override
     public List<Product> getPopularOrderedProduct(int orderedtimes) {
-        //To do
-        return null;
+        return DataSource.allProducts.stream().filter(p -> DataSource.allOrderProducts.stream()
+                .filter(o-> o.getProductId() == p.getProductId()).count() >= orderedtimes)
+                .sorted(Comparator.comparingLong(Product::getProductId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -75,8 +80,10 @@ public class BL implements IBL {
 
     @Override
     public Product getMaxOrderedProduct() {
-        //To do
-        return null;
+        return DataSource.allProducts.stream().filter(p -> p.getProductId() ==
+                DataSource.allOrderProducts.stream().collect(groupingBy(OrderProduct::getProductId))
+                        .entrySet().stream().collect(toMap(Map.Entry::getKey, e -> e.getValue().stream().map(OrderProduct::getQuantity).reduce(0, Integer::sum))).entrySet().stream().max(Comparator.comparingInt(Map.Entry::getValue)).orElse(new AbstractMap.SimpleImmutableEntry<>(0L, 0)).getKey()
+                ).findFirst().orElse(null);
 
     }
     @Override
