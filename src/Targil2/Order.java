@@ -2,7 +2,9 @@ package Targil2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static java.lang.Long.parseLong;
 
@@ -15,12 +17,20 @@ public class Order {
 
     private long customrId;
 
-    public Order(String orderInfo)  {
-       //To Do
+    public Order(String orderInfo) {
+        List<String> orderData = Arrays.asList(orderInfo.split("\\s"));
+        orderId = Long.parseLong(orderData.get(1));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            orderDate = sdf.parse(orderData.get(3));
+            deliveryDate = sdf.parse(orderData.get(5));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        status = OrderStatus.valueOf(orderData.get(5));
     }
 
-    public Order(long Oid, Date OorderDate, Date OdeliveryDate, OrderStatus Ostatus, long OcustomrId)
-    {
+    public Order(long Oid, Date OorderDate, Date OdeliveryDate, OrderStatus Ostatus, long OcustomrId) {
         setOrderId(Oid);
         setOrderDate(OorderDate);
         setDeliveryDate(OdeliveryDate);
@@ -29,11 +39,9 @@ public class Order {
     }
 
 
-
-    public String toString()
-    {
-        SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
-        return "order: "+ getOrderId() + " order date: "+ ft.format(getOrderDate()) +" delivery date: "+ ft.format(getDeliveryDate()) + " status: "+ getStatus() + " customr id: "+ getCustomrId()+"\n";
+    public String toString() {
+        SimpleDateFormat ft = new SimpleDateFormat("dd/MM/yyyy");
+        return "order: " + getOrderId() + " order date: " + ft.format(getOrderDate()) + " delivery date: " + ft.format(getDeliveryDate()) + " status: " + getStatus() + " customr id: " + getCustomrId() + "\n";
     }
 
     public long getOrderId() {

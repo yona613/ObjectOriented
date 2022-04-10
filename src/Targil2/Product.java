@@ -1,5 +1,8 @@
 package Targil2;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static java.lang.Long.parseLong;
 
 public class Product
@@ -11,7 +14,11 @@ public class Product
 
     public Product(String orderInfo)
     {
-        //To Do
+        List<String> productData = Arrays.asList(orderInfo.split("\\s"));
+        ProductId = Long.parseLong(productData.get(1));
+        name = productData.get(3);
+        category = ProductCategory.valueOf(productData.get(5));
+        price = Double.parseDouble(productData.get(5));
     }
 
     public Product(long PId, String Pname, ProductCategory Pcategory, double Pprice)
