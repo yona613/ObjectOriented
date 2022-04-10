@@ -3,6 +3,7 @@ package Targil2;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.reverseOrder;
@@ -50,8 +51,9 @@ public class BL implements IBL {
 
     @Override
     public long numberOfProductInOrder(long orderId) {
-        //To do
-        return 0;
+        return DataSource.allOrders.stream().filter(o -> o.getOrderId() == orderId)
+                .map(o -> DataSource.allOrderProducts.stream().filter(op -> op.getOrderId() == o.getOrderId()).count())
+                .findAny().orElse(0L);
     }
 
     @Override
@@ -63,14 +65,21 @@ public class BL implements IBL {
     @Override
     public List<Product> getOrderProducts(long orderId)
     {
-        //To do
-        return null;
+        return DataSource.allOrderProducts.stream().filter(op -> op.getOrderId() == orderId)
+                .map(orderProduct -> DataSource.allProducts.stream()
+                        .filter(p -> p.getProductId() == orderProduct.getProductId())
+                        .findAny()
+                        .orElse(null)
+                ).collect(Collectors.toList());
     }
 
     @Override
     public List<Customer> getCustomersWhoOrderedProduct(long productId) {
-        //To do
-        return null;
+        return DataSource.allOrderProducts.stream().filter(op -> op.getProductId() == productId)
+                .map(op -> DataSource.allOrders.stream().filter(o -> o.getOrderId() == op.getOrderId()).findAny().orElse(null))
+                .filter(Objects::nonNull)
+                .map(o -> DataSource.allCustomers.stream().filter(c -> c.getId() == o.getCustomrId()).findAny().orElse(null))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -81,21 +90,24 @@ public class BL implements IBL {
     }
     @Override
     public double sumOfOrder(long orderID) {
-        //To do
-        return 0;
+        return DataSource.allOrderProducts.stream().filter(op -> op.getOrderId() == orderID)
+                .map(op -> op.getQuantity() * DataSource.allProducts.stream().filter(p -> p.getProductId() == op.getProductId()).findAny().orElse(new Product(0,"", ProductCategory.Accessories, 0)).getPrice())
+                .reduce(0d, Double::sum);
     }
 
     @Override
     public List<Order> getExpensiveOrders(double price) {
-        //To do
-        return null;
+       return DataSource.allOrders.stream().filter(o -> sumOfOrder(o.getOrderId()) > price)
+               .collect(Collectors.toList());
     }
 
     @Override
     public List<Customer> ThreeTierCustomerWithMaxOrders() {
-        //To do
-        return null;
-
+        return DataSource.allCustomers.stream().filter(c-> c.getTier() == 3
+        && getCustomerOrders(c.getId()).size() == DataSource.allCustomers.stream().filter(customer-> customer.getTier() == 3)
+                .map(customer -> getCustomerOrders(customer.getId()).size())
+                .max(Comparator.comparingInt(Integer::intValue)).orElse(0))
+                .collect(Collectors.toList());
     }
 
 }
