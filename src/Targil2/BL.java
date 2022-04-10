@@ -13,33 +13,33 @@ import static java.util.stream.Collectors.*;
 public class BL implements IBL {
     @Override
     public Product getProductById(long productId) {
-        //To do
-        return null;
+       return DataSource.allProducts.stream().filter(p-> p.getProductId() == productId).findAny().orElse(null);
     }
 
     @Override
     public Order getOrderById(long orderId) {
-        //To do
-        return null;
+        return DataSource.allOrders.stream().filter(o-> o.getOrderId() == orderId).findAny().orElse(null);
     }
 
     @Override
     public Customer getCustomerById(long customerId) {
-        //To do
-        return null;
+        return DataSource.allCustomers.stream().filter(c-> c.getId() == customerId).findAny().orElse(null);
     }
 
 
     @Override
     public List<Product> getProducts(ProductCategory cat, double price) {
-        //To do
-        return null;
+      return DataSource.allProducts.stream().filter(p-> p.getCategory() == cat && p.getPrice() <= price)
+              .sorted(Comparator.comparingLong(Product::getProductId))
+              .collect(Collectors.toList());
     }
 
     @Override
     public List<Customer> popularCustomers() {
-        //To do
-        return null;
+       return DataSource.allCustomers.stream().filter(c -> c.getTier() == 3)
+               .filter(c -> DataSource.allOrders.stream().filter(o-> o.getCustomrId() == c.getId()).count() > 10)
+               .sorted(Comparator.comparingLong(Customer::getId))
+               .collect(Collectors.toList());
     }
 
     @Override
