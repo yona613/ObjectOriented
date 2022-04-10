@@ -3,10 +3,8 @@ package Targil2;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.reverseOrder;
-import static java.util.Map.Entry.comparingByValue;
-import static java.util.function.UnaryOperator.identity;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toMap;
 
 public class BL implements IBL {
     @Override
@@ -42,8 +40,9 @@ public class BL implements IBL {
 
     @Override
     public List<Order> getCustomerOrders(long customerId) {
-        //To do
-        return null;
+        return DataSource.allOrders.stream().filter(o-> o.getCustomrId() == customerId)
+                .sorted(Comparator.comparingLong(Order::getOrderId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -100,8 +99,6 @@ public class BL implements IBL {
     public List<Order> getExpensiveOrders(double price) {
         return DataSource.allOrders.stream().filter(o -> sumOfOrder(o.getOrderId()) > price)
                 .collect(Collectors.toList());
-       return DataSource.allOrders.stream().filter(o -> sumOfOrder(o.getOrderId()) > price)
-               .collect(Collectors.toList());
     }
 
     @Override
