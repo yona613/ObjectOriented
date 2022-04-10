@@ -5,6 +5,7 @@ public class FigTree extends Tree {
 
     FigTree(int height, Season season) {
         super(height, season, null);
+        //Get color of tree by current season
         switch (this.getCurrentSeason()) {
             case WINTER: {
                 this.leavesColor = null;
@@ -24,6 +25,9 @@ public class FigTree extends Tree {
         }
     }
 
+    /**
+     * Update leaves of tree by current season
+     */
     private void updateLeaves() {
         switch (this.getCurrentSeason()) {
             case WINTER: {
@@ -49,6 +53,9 @@ public class FigTree extends Tree {
     }
 
     @Override
+    /**
+     * Print data of Tree
+     */
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Fig tree.");

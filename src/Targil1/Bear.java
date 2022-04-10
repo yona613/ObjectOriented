@@ -6,7 +6,10 @@ public class Bear extends Animal {
         super(weight, season, Color.BROWN);
     }
 
-    private void updateBearWeigth() {
+    /**
+     * Update weight of bear by season
+     */
+    private void updateBearWeight() {
         switch (this.getCurrentSeason()) {
             case WINTER: {
                 this.weight = (int) (this.weight * 0.8f);
@@ -28,6 +31,9 @@ public class Bear extends Animal {
     }
 
     @Override
+    /**
+     * Print data of bear
+     */
     public String toString() {
         return "Bear." + (this.getCurrentSeason().equals(Season.WINTER) ? " I am sleeping." : "") + String.format(" My weight is: %s and my color is: %s", this.weight, this.color);
     }
@@ -35,6 +41,6 @@ public class Bear extends Animal {
     @Override
     public void changeSeason() {
         super.changeSeason();
-        this.updateBearWeigth();
+        this.updateBearWeight();
     }
 }

@@ -4,10 +4,12 @@ public class OliveTree extends Tree {
 
 
     OliveTree(int height, Season season) {
-        // TODO: Implement.
         super(height, season, Color.GREEN);
     }
 
+    /**
+     * Update leaves of tree by current season
+     */
     private void updateLeaves() {
         switch (this.getCurrentSeason()) {
             case WINTER:
@@ -24,6 +26,9 @@ public class OliveTree extends Tree {
     }
 
     @Override
+    /**
+     * Print data of Tree
+     */
     public String toString() {
         return "Olive tree. " + ((this.getCurrentSeason().equals(Season.FALL)) ? "I give fruit. " : "") +
                 String.format("My height is: %s and my color is: %s", this.height, this.leavesColor);
