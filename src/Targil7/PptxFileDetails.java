@@ -18,7 +18,7 @@ public class PptxFileDetails extends FileDetails {
     }
 
     @Override
-    public int accept(FileVisitor visitor) {
-        return visitor.visit(this);
+    public void accept(FileVisitor visitor) {
+         visitor.visit(this);
     }
 }

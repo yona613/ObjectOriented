@@ -10,12 +10,11 @@ public class DirectoryDetails extends FileDetails {
     private List<FileDetails> directoryFiles = new ArrayList<>();
 
     @Override
-    public int accept(FileVisitor visitor) {
-        int sum = 0;
+    public void accept(FileVisitor visitor) {
         for (FileDetails file : directoryFiles) {
-            sum += file.accept(visitor);
+            file.accept(visitor);
         }
-        return sum + visitor.visit(this);
+        visitor.visit(this);
     }
 
     public void addFile(FileDetails fileDetails){

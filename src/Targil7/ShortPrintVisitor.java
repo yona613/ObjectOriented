@@ -4,44 +4,37 @@ public class ShortPrintVisitor implements FileVisitor {
 
 
     @Override
-    public int visit(DocxFileDetails docxFile) {
+    public void visit(DocxFileDetails docxFile) {
         System.out.println(docxFile.name);
-        return 0;
     }
 
     @Override
-    public int visit(PptxFileDetails pptxFile) {
+    public void visit(PptxFileDetails pptxFile) {
         System.out.println(pptxFile.name);
-        return 0;
     }
 
     @Override
-    public int visit(HtmlFileDetails htmlFile) {
+    public void visit(HtmlFileDetails htmlFile) {
         System.out.println(htmlFile.name);
-        return 0;
     }
 
     @Override
-    public int visit(TxtFileDetails txtFile) {
+    public void visit(TxtFileDetails txtFile) {
         System.out.println(txtFile.name);
-        return 0;
     }
 
     @Override
-    public int visit(Mp3FileDetails mp3File) {
+    public void visit(Mp3FileDetails mp3File) {
         System.out.println(mp3File.name);
-        return 0;
     }
 
     @Override
-    public int visit(JpgFileDetails jpgFile) {
+    public void visit(JpgFileDetails jpgFile) {
         System.out.println(jpgFile.name);
-        return 0;
     }
 
     @Override
-    public int visit(DirectoryDetails directory) {
+    public void visit(DirectoryDetails directory) {
         System.out.println(directory.name);
-        return 0;
     }
 }

@@ -2,37 +2,42 @@ package Targil7;
 
 public class SizeVisitor implements FileVisitor {
 
+    private int size = 0;
 
-    @Override
-    public int visit(DocxFileDetails docxFile) {
-        return docxFile.getSize();
+    public int getSize() {
+        return size;
     }
 
     @Override
-    public int visit(PptxFileDetails pptxFile) {return pptxFile.getSize();}
-
-    @Override
-    public int visit(HtmlFileDetails htmlFile) {
-        return htmlFile.getSize();
+    public void visit(DocxFileDetails docxFile) {
+        size += docxFile.getSize();
     }
 
     @Override
-    public int visit(TxtFileDetails txtFile) {
-        return txtFile.getSize();
+    public void visit(PptxFileDetails pptxFile) {
+        size += pptxFile.getSize();
     }
 
     @Override
-    public int visit(Mp3FileDetails mp3File) {
-        return mp3File.getSize();
+    public void visit(HtmlFileDetails htmlFile) {
+        size += htmlFile.getSize();
     }
 
     @Override
-    public int visit(JpgFileDetails jpgFile) {
-        return jpgFile.getSize();
+    public void visit(TxtFileDetails txtFile) {
+        size += txtFile.getSize();
     }
 
     @Override
-    public int visit(DirectoryDetails directory) {
-        return 0;
+    public void visit(Mp3FileDetails mp3File) {
+        size += mp3File.getSize();
     }
+
+    @Override
+    public void visit(JpgFileDetails jpgFile) {
+        size += jpgFile.getSize();
+    }
+
+    @Override
+    public void visit(DirectoryDetails directory) { }
 }
